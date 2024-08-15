@@ -7,42 +7,43 @@ import { pipeline } from "stream/promises";
 import User from "../models/user.model.js";
 
 export const uploadResource = async (req, res, next) => {
-  if (req.user.role != "admin") {
-    return res.status(401).json("Only admin can upload resources");
-  } else {
-    try {
-      const {
-        resourceUserId,
-        resourceName,
-        resourceSize,
-        uploadedBy,
-        resourceDescription,
-        resourceType,
-        url,
-      } = req.body;
+  try {
+    const {
+      resourceUserId,
+      resourceName,
+      resourceSize,
+      uploadedBy,
+      resourceDescription,
+      resourceType,
+      url,
+    } = req.body;
 
-      // Check if the user exists
-      const user = await User.findById(resourceUserId);
+    // Check if the user exists
+    const user = await User.findById(resourceUserId);
 
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-
-      const resource = new Resource({
-        resourceUserId,
-        resourceName,
-        resourceSize,
-        uploadedBy,
-        resourceDescription,
-        resourceType,
-        url,
-      });
-
-      await resource.save();
-      return res.status(201).json("Successfully uploaded the resource");
-    } catch (error) {
-      next(errorHandler(500, error.message));
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
+
+    // Check if user is not an admin and is uploading a resource for another user
+    if (req.user.role !== "admin" && req.user.id != resourceUserId) {
+      return res.status(401).json("Unauthorized to upload resource for another user");
+    }
+
+    const resource = new Resource({
+      resourceUserId,
+      resourceName,
+      resourceSize,
+      uploadedBy,
+      resourceDescription,
+      resourceType,
+      url,
+    });
+
+    await resource.save();
+    return res.status(201).json("Successfully uploaded the resource");
+  } catch (error) {
+    next(errorHandler(500, error.message));
   }
 };
 
@@ -153,6 +154,10 @@ export const downloadResource = async (req, res, next) => {
 };
 
 export const getAllUsers = async (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return res.status(401).json("Only admin can fetch all users");
+  }
+
   // Return all users in the database who are not admins
   try {
     const users = await User.find(

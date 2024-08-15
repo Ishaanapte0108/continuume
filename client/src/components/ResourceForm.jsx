@@ -77,7 +77,7 @@ const ResourceForm = ({onUploadSuccess, selectedUser}) => {
           'resourceSize': resourceSize,
           'resourceType': resourceType,
           'resourceType': resourceType,
-          'uploadedBy':"admin",
+          'uploadedBy': selectedUser.role,
           'url': fileUrl
         })
       });
