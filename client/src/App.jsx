@@ -22,6 +22,8 @@ import VerifyEmail from './pages/VerifyEmail';
 import CheckEmail from './pages/CheckEmail';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import Tasks from './pages/Tasks';
+import TaskManagement from './pages/TaskManagement';
 
 export default function App() {
   return (
@@ -42,6 +44,7 @@ export default function App() {
             {/* PrivateRoute wrapper for protected routes */}
             <Route element={<PrivateRoute />}>
               <Route path='/form' element={<Form />} />
+              <Route path='/tasks' element={<Tasks />} />
               <Route path='/profile' element={<Profile />} />
               <Route path='/events' element={<Events />} />
               <Route path='/resource' element={<Resource />} />
@@ -52,6 +55,7 @@ export default function App() {
               <Route path='/console' element={<Console />} />
               <Route path='/manage-users' element={<UserManagement />} />
               <Route path='/manage-resources' element={<ResourceManagement />} />
+              <Route path='/manage-tasks' element={<TaskManagement />} />
               <Route path='/manage-events' element={<EventsManagement />} />
             </Route>
           </Routes>
