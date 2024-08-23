@@ -10,6 +10,7 @@ import eventsRouter from './routes/events.route.js';
 import universityRoutes from './routes/university.route.js'
 import cookieParser from 'cookie-parser';
 import messageRouter from './routes/message.route.js'
+import tasksRouter from './routes/tasks.route.js'
 import path from 'path'
 import logger from '../logger.js';
 
@@ -50,11 +51,15 @@ app.use('/api/events', eventsRouter)
 app.use('/api/universities', universityRoutes);
 app.use('/api/message',messageRouter)
 
+app.use('/api/tasks', tasksRouter);
+
+
 app.use(express.static (path.join(__dirname, '/client/dist')));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'))
 })
+
 
 app.use((err, req, res, next) =>{
   const statusCode = err.statusCode || 500;

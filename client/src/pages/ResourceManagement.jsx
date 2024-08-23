@@ -4,7 +4,7 @@ import ResourceEdit from '../components/ResourceEdit'
 export default function ResourceManagement() {
   return (
     <div>
-      <ResourceEdit/>
+      <ResourceEdit isAdminView={true}/>
     </div>
   )
 }

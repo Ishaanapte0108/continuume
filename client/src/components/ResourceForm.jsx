@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {app} from '../firebase';  // Adjust the import according to your firebase config file path
 
-const ResourceForm = ({onUploadSuccess}) => {
+const ResourceForm = ({onUploadSuccess, selectedUser}) => {
   
   const [resourceName, setResourceName] = useState('');
   const [resourceSize, setResourceSize] = useState('');
@@ -71,12 +71,13 @@ const ResourceForm = ({onUploadSuccess}) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          'resourceUserId': selectedUser._id,
           'resourceName': resourceName,
           'resourceDescription': resourceDescription,
           'resourceSize': resourceSize,
           'resourceType': resourceType,
           'resourceType': resourceType,
-          'uploadedBy':"admin",
+          'uploadedBy': selectedUser.role,
           'url': fileUrl
         })
       });

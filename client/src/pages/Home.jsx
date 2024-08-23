@@ -5,6 +5,7 @@ import GoToForm from '../components/GoToForm';
 import GoToResource from '../components/GoToResource'
 import GoToEvents from '../components/GoToEvents';
 import Footer from '../components/Footer';
+import GoToTask from '../components/GoToTask';
 
 const Home = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -18,6 +19,7 @@ const Home = () => {
               <GoToForm />
               <GoToResource/>
               <GoToEvents/>
+              <GoToTask />
               {/* <GoToAnnouncement/> */}
             </div>
           </div>
