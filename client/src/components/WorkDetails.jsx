@@ -4,7 +4,18 @@ import { app } from '../firebase';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 
 const WorkDetails = ({ data, onChange }) => {
-  const [workDetails, setWorkDetails] = useState(data);
+  const [workDetails, setWorkDetails] = useState(data.length > 0 ? data : [
+    {
+      _id: BSON.ObjectID(BSON.ObjectID.generate()).toHexString(),
+      jobTitle: '',
+      organiztionName: '',
+      organiztionAdd: '',
+      organiztionPhone: '',
+      startDate: '',
+      endDate: '',
+      jobCertificate: '',
+    },
+  ]);
 
   const handleAddWorkDetails = () => {
     setWorkDetails([
@@ -31,9 +42,11 @@ const WorkDetails = ({ data, onChange }) => {
   };
 
   const handleRemoveWorkDetails = (index) => {
-    const updatedWorkDetails = workDetails.filter((_, i) => i !== index);
-    setWorkDetails(updatedWorkDetails);
-    onChange(updatedWorkDetails);
+    if (workDetails.length > 1) {
+      const updatedWorkDetails = workDetails.filter((_, i) => i !== index);
+      setWorkDetails(updatedWorkDetails);
+      onChange(updatedWorkDetails);
+    }
   };
 
   const storeFile = async (file) => {
@@ -207,27 +220,27 @@ const WorkDetails = ({ data, onChange }) => {
               </div>
             </div>
 
-            <div className="flex justify-end pt-4">
+            <div className="flex justify-between items-center pt-4">
               <button
                 type='button'
-                className="mt-2 px-4 py-2 bg-red-500 text-white rounded-md"
+                className="mt-2 text-white bg-red-500 hover:bg-red-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 onClick={() => handleRemoveWorkDetails(index)}
               >
                 Remove
               </button>
+
+              {index === workDetails.length - 1 && (
+                <button
+                  type='button'
+                  className="mt-2 text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  onClick={handleAddWorkDetails}
+                >
+                  Add
+                </button>
+              )}
             </div>
           </div>
         ))}
-        
-        <div className="flex justify-center">
-          <button
-            type='button'
-            className="mt-4 p-3 bg-blue-500 text-white rounded-md"
-            onClick={handleAddWorkDetails}
-          >
-            Add
-          </button>
-        </div>
       </form>
     </div>
   );

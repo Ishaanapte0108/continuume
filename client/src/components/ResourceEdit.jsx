@@ -187,16 +187,24 @@ const ResourceEdit = ({ isAdminView = false }) => {
                         <h2 className="font-semibold text-gray-700">
                           Resources Overview
                         </h2>
-                        <span className="text-xs text-gray-500">
-                          View and manage creation and updation of resources
-                        </span>
+                        {isAdminView ? (
+                          <span className="text-xs text-gray-500">
+                            View and manage creation and updation of resources
+                          </span>
+                        ) : (
+                          <span className="text-xs text-gray-500">
+                            View your resources
+                          </span>
+                        )}
                       </div>
-                      <button
-                        onClick={handleAddResource}
-                        className="text-sm  font-semibold bg-green-200 text-green-900 hover:bg-green-400 py-2 px-4 rounded"
-                      >
-                        Add New Resource
-                      </button>
+                      {isAdminView && (
+                        <button
+                          onClick={handleAddResource}
+                          className="text-sm font-semibold bg-green-200 text-green-900 hover:bg-green-400 py-2 px-4 rounded"
+                        >
+                          Add New Resource
+                        </button>
+                      )}
                     </div>
                     {showUploadForm && (
                       <ResourceForm
@@ -205,123 +213,7 @@ const ResourceEdit = ({ isAdminView = false }) => {
                       />
                     )}
 
-                    <div className="flex flex-col mt-6">
-                      <div className="flex items-center justify-between pb-2 border-b border-gray-200 dark:border-gray-700">
-                        <h3 className="font-semibold text-gray-700">
-                          {isAdminView
-                            ? "User Uploaded Resources"
-                            : "Your Uploaded Resources"}
-                        </h3>
-                      </div>
-                      <div className="mt-4">
-                        <div className="overflow-y-hidden rounded-lg border">
-                          <div className="overflow-x-auto">
-                            <table className="w-full">
-                              <thead>
-                                <tr className="bg-indigo-500 text-left text-xs font-semibold uppercase tracking-widest text-white">
-                                  <th className="px-5 py-3">Name</th>
-                                  <th className="px-5 py-3">Downloads</th>
-                                  <th className="px-5 py-3">Description</th>
-                                  <th className="px-5 py-3">View</th>
-                                  <th className="px-5 py-3">Delete</th>
-                                  {!isAdminView && (
-                                    <th className="px-5 py-3">Download</th>
-                                  )}
-                                </tr>
-                              </thead>
-                              <tbody className="text-gray-500">
-                                {resources
-                                  .filter(
-                                    (resource) =>
-                                      resource.uploadedBy !== "admin"
-                                  )
-                                  .map((resource) => (
-                                    <tr key={resource._id}>
-                                      <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                                        <p className="whitespace-no-wrap">
-                                          {resource.resourceName}
-                                        </p>
-                                      </td>
-
-                                      <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                                        <p className="whitespace-no-wrap">
-                                          {resource.downloadCount}
-                                        </p>
-                                      </td>
-
-                                      <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm max-w-48">
-                                        {/* Adjust max-w-48 as needed for maximum width */}
-                                        <p className="whitespace-pre-wrap">
-                                          {resource.resourceDescription}
-                                        </p>
-                                      </td>
-
-                                      <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                                        <a
-                                          href={resource.url}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          className="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-900"
-                                        >
-                                          View
-                                        </a>
-                                      </td>
-
-                                      <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                                        <button
-                                          className="rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white hover:bg-red-900"
-                                          onClick={() =>
-                                            deleteResource(resource._id)
-                                          }
-                                        >
-                                          Delete
-                                        </button>
-                                      </td>
-
-                                      {!isAdminView && (
-                                        <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                                          <button
-                                            onClick={() =>
-                                              handleDownload(
-                                                resource._id,
-                                                resource.resourceName
-                                              )
-                                            }
-                                            className="rounded-full bg-green-500 px-3 py-1 text-xs font-semibold text-white hover:bg-blue-900"
-                                          >
-                                            Download
-                                          </button>
-                                        </td>
-                                      )}
-                                    </tr>
-                                  ))}
-                              </tbody>
-                            </table>
-                          </div>
-
-                          <div className="flex flex-col items-center border-t bg-white px-5 py-5 sm:flex-row sm:justify-between">
-                            <span className="text-xs text-gray-600 sm:text-sm">
-                              {" "}
-                              Showing{" "}
-                              {
-                                resources.filter(
-                                  (resource) => resource.uploadedBy !== "admin"
-                                ).length
-                              }{" "}
-                              Entries{" "}
-                            </span>
-                            <div className="mt-2 inline-flex sm:mt-0"></div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between pb-2 border-b border-gray-200 dark:border-gray-700 mt-6">
-                        <h3 className="font-semibold text-gray-700">
-                          Admin Uploaded Resources
-                        </h3>
-                      </div>
-
-                      <div className="mt-4">
+                    <div className="flex flex-col mt-4">
                         <div className="overflow-y-hidden rounded-lg border">
                           <div className="overflow-x-auto">
                             <table className="w-full">
@@ -424,7 +316,6 @@ const ResourceEdit = ({ isAdminView = false }) => {
                             </span>
                             <div className="mt-2 inline-flex sm:mt-0"></div>
                           </div>
-                        </div>
                       </div>
                     </div>
                   </div>

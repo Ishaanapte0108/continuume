@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TravelAndVisa = ({ data, onChange }) => {
+const Visa = ({ data, onChange }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     onChange({
@@ -11,7 +11,7 @@ const TravelAndVisa = ({ data, onChange }) => {
 
   return (
     <div>
-      <div className='text-xl font-medium pb-4 text-indigo-500'>Travel & Visa</div>
+      <div className='text-xl font-medium pb-4 text-indigo-500'>Visa</div>
       
       <form>
             <div className='grid grid-cols-2 gap-4'>
@@ -95,4 +95,4 @@ const TravelAndVisa = ({ data, onChange }) => {
   );
 };
 
-export default TravelAndVisa;
+export default Visa;

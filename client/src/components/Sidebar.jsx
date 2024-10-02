@@ -26,7 +26,7 @@ const Sidebar = ({ isOpen, onSelect }) => {
               <span className="ml-3 text-gray-900 font-medium">Education</span>
             </div>
           </li>
-          <li className="cursor-pointer" onClick={() => onSelect('TravelAndVisa')}>
+          <li className="cursor-pointer" onClick={() => onSelect('Travel')}>
             <div className="flex items-center p-2 group hover:bg-indigo-100 rounded">
               <div className="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="size-6">
@@ -34,7 +34,17 @@ const Sidebar = ({ isOpen, onSelect }) => {
               </svg>
 
               </div>
-              <span className="ml-3 text-gray-900 font-medium">Travel And Visa</span>
+              <span className="ml-3 text-gray-900 font-medium">Travel</span>
+            </div>
+          </li>
+          <li className="cursor-pointer" onClick={() => onSelect('Visa')}>
+            <div className="flex items-center p-2 group hover:bg-indigo-100 rounded">
+              <div className="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="size-6">
+                <path d="M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5" />
+              </svg>
+              </div>
+              <span className="ml-3 text-gray-900 font-medium">Visa</span>
             </div>
           </li>
           <li className="cursor-pointer" onClick={() => onSelect('References')}>
@@ -85,6 +95,16 @@ const Sidebar = ({ isOpen, onSelect }) => {
               </svg>
               </div>
               <span className="ml-3 text-gray-900 font-medium">University</span>
+            </div>
+          </li>
+          <li className="cursor-pointer" onClick={() => onSelect('PostAdmission')}>
+            <div className="flex items-center p-2 group hover:bg-indigo-100 rounded">
+              <div className="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                <path d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
+              </svg>
+              </div>
+              <span className="ml-3 text-gray-900 font-medium">Post Admission</span>
             </div>
           </li>
         </ul>
