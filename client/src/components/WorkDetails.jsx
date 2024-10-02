@@ -93,40 +93,38 @@ const WorkDetails = ({ data, onChange }) => {
   };
 
   return (
-    <div>
-      <div className='text-xl font-medium pb-4 text-indigo-500'>Work Details</div>
+    <div className="p-6 bg-gradient-to-br from-purple-50 to-indigo-100 rounded-xl shadow-lg">
+      <h2 className="text-2xl font-bold text-indigo-700 mb-6">Work Details</h2>
       <form>
         {workDetails.map((workDetail, index) => (
-          <div key={index} className="mb-4 p-4 border border-gray-300 rounded-md">
+          <div key={index} className="mb-4 p-4 bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-lg shadow-lg overflow-hidden">
             <div className='grid grid-cols-2 gap-4'>
               <div className='col-span-1'>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
+                <label className="block text-indigo-600 text-sm font-semibold mb-2">
                   Job Title
                 </label>
                 <input
                   type='text'
                   name='jobTitle'
-                  className="appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white bg-opacity-50"
                   value={workDetail.jobTitle}
                   onChange={(e) => handleInputChange(index, e)}
                   placeholder='Enter job title'
                 />
               </div>
-
               <div className='col-span-1'>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Organiztion Name
+                <label className="block text-indigo-600 text-sm font-semibold mb-2">
+                  Organization Name
                 </label>
                 <input
                   type='text'
                   name='organiztionName'
-                  className="appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white bg-opacity-50"
                   value={workDetail.organiztionName}
                   onChange={(e) => handleInputChange(index, e)}
-                  placeholder='Enter organiztion name offering the job'
+                  placeholder='Enter organization name offering the job'
                 />
               </div>
-
               <div className='col-span-1'>
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                   Organiztion Address

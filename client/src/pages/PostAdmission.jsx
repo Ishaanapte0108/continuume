@@ -68,26 +68,26 @@ const PostAdmission = ({ data, onChange }) => {
   };
 
   return (
-    <div>
-      <div className='text-xl font-medium pb-4 text-indigo-500'>Post Admission Documents</div>
+    <div className="p-6 bg-gradient-to-br from-purple-50 to-indigo-100 rounded-xl shadow-lg">
+      <h2 className="text-2xl font-bold text-indigo-700 mb-6">Post Admission Documents</h2>
       
       <div className='flex flex-col space-y-4'>
-        <div className="relative z-0 w-full mb-5 group">
-          <label className='pb-2 font-semibold text-gray-700'>Final University</label>
+        <div className="relative z-0 w-full mb-5 group bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-lg p-4">
+          <label className='block text-indigo-600 text-sm font-semibold mb-2'>Final University</label>
           <input
             type="text"
             value={documents.finalUniversity}
             onChange={(event) => handleInputChange(event, 'finalUniversity')}
-            className="appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white bg-opacity-50"
           />
         </div>
-        <div className="relative z-0 w-full mb-5 group">
-          <label className='pb-2 font-semibold text-gray-700'>Intake</label>
+        <div className="relative z-0 w-full mb-5 group bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-lg p-4">
+          <label className='block text-indigo-600 text-sm font-semibold mb-2'>Intake</label>
           <input
             type="text"
             value={documents.intake}
             onChange={(event) => handleInputChange(event, 'intake')}
-            className="appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white bg-opacity-50"
           />
         </div>
         
