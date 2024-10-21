@@ -7,12 +7,14 @@ import References from '../components/References';
 import WorkDetails from '../components/WorkDetails';
 import Documents from '../components/Documents';
 import Education from '../components/Education';
-import TravelAndVisa from '../components/TravelAndVisa';
+import Travel from '../components/Travel';
+import Visa from '../components/Visa';
 import { useSelector } from 'react-redux';
 import { selectUserIdToView } from '../redux/form/formSlice';
 import Footer from '../components/Footer';
 import Chat from '../components/Chat';
 import ButtonsSection from '../components/ButtonsSection';
+import PostAdmission from './PostAdmission';
 
 const Form = () => {
   
@@ -78,7 +80,14 @@ const Form = () => {
       toeflTestDate: '',
 
     },
-    travelAndVisa: {
+    travel: {
+      startDate: '',
+      endDate: '',
+      country: '',
+      reason: '',
+      fileUrl: '',
+    },
+    visa: {
       visaRefuse: '',
       refusedFor: '',
       refusingCountry: '',
@@ -104,6 +113,13 @@ const Form = () => {
     uniChoice1: '',
     uniChoice2: '',
     uniChoice3: '',    
+    },
+    postAdmission: {
+      finalUniversity: '',
+      intake: '',
+      i20: '',
+      visaCopy: '',
+      sevisFee: '',
     }
   });
   
@@ -201,9 +217,12 @@ const Form = () => {
         setSelectedForm('Education');
         break;
       case 'Education':
-        setSelectedForm('TravelAndVisa');
+        setSelectedForm('Travel');
         break;
-      case 'TravelAndVisa':
+      case 'Travel':
+        setSelectedForm('Visa');
+        break;
+      case 'Visa':
         setSelectedForm('References');
         break;
       case 'References':
@@ -218,6 +237,9 @@ const Form = () => {
       case 'CourseDetails':
         setSelectedForm('University');
         break;
+      case 'University':
+        setSelectedForm('PostAdmission');
+        break;
       default:
         break;
     }
@@ -228,11 +250,14 @@ const Form = () => {
       case 'Education':
         setSelectedForm('PersonalDetails');
         break;
-      case 'TravelAndVisa':
+      case 'Travel':
         setSelectedForm('Education');
         break;
+      case 'Visa':
+        setSelectedForm('Travel');
+        break;
       case 'References':
-        setSelectedForm('TravelAndVisa');
+        setSelectedForm('Visa');
         break;
       case 'WorkDetails':
         setSelectedForm('References');
@@ -246,6 +271,9 @@ const Form = () => {
       case 'University':
         setSelectedForm('CourseDetails');
         break;
+      case 'PostAdmission':
+        setSelectedForm('University');
+        break;
       default:
         break;
     }
@@ -258,8 +286,10 @@ const Form = () => {
         return <PersonalDetails data={formData.personal_details} onChange={(data) => handleFormDataChange('personal_details', data)} />;
       case 'Education':
         return <Education data={formData.education} onChange={(data) => handleFormDataChange('education', data)} />;
-      case 'TravelAndVisa':
-        return <TravelAndVisa data={formData.travelAndVisa} onChange={(data) => handleFormDataChange('travelAndVisa', data)} />;
+      case 'Travel':
+        return <Travel data={formData.travel} onChange={(data) => handleFormDataChange('travel', data)} />;
+      case 'Visa':
+        return <Visa data={formData.visa} onChange={(data) => handleFormDataChange('visa', data)} />;
       case 'References':
         return <References data = {formData.references} onChange = {(data) => handleFormDataChange('references', data)}/>
       case 'WorkDetails':
@@ -270,6 +300,8 @@ const Form = () => {
           return <CourseDetails data={formData.courseDetails} onChange={(data)=>handleFormDataChange('courseDetails',data)}/>        
       case 'University':
           return <University data={formData.university} onChange={(data)=>handleFormDataChange('university',data)}/>          
+      case 'PostAdmission':
+          return <PostAdmission data={formData.postAdmission} onChange={(data)=>handleFormDataChange('postAdmission',data)}/>          
       default:
         return <div>Select a form from the sidebar.</div>;
     }

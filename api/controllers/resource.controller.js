@@ -62,8 +62,17 @@ export const readResource = async (req, res, next) => {
 };
 
 export const deleteResource = async (req, res, next) => {
-  if (req.user.role != "admin") {
-    return res.status(401).json("Only admin can delete resources");
+  // If the resource is uploaded by the user, they can delete it themselves
+  const resource = await Resource.findById(req.params.id);
+
+  if (!resource) {
+    return next(errorHandler(404, "Resource not found"));
+  }
+
+
+
+  if (req.user.role !== "admin" && req.user.id != resource.resourceUserId) {
+    return res.status(401).json("Unauthorized to delete the resource");
   } else {
     try {
       await Resource.findByIdAndDelete(req.params.id);

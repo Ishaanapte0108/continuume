@@ -4,7 +4,21 @@ import { app } from '../firebase';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 
 const References = ({ data, onChange }) => {
-  const [references, setReferences] = useState(data);
+  const [references, setReferences] = useState(data.length > 0 ? data : [
+    {
+      _id: BSON.ObjectID(BSON.ObjectID.generate()).toHexString(),
+      referenceName: '',
+      referencePosition: '',
+      referenceTitle: '',
+      referenceWorkEmail: '',
+      referenceKnowDuration: '',
+      referencePhone: '',
+      referenceRelationship: '',
+      referenceInstitution: '',
+      referenceInstitutionAdd: '',
+      fileUrl: ''
+    }
+  ]);
 
   const handleAddReference = () => {
     setReferences([
@@ -34,9 +48,11 @@ const References = ({ data, onChange }) => {
   };
 
   const handleRemoveReference = (index) => {
-    const updatedReferences = references.filter((_, i) => i !== index);
-    setReferences(updatedReferences);
-    onChange(updatedReferences);
+    if (references.length > 1) {
+      const updatedReferences = references.filter((_, i) => i !== index);
+      setReferences(updatedReferences);
+      onChange(updatedReferences);
+    }
   };
 
   const storeFile = async (file) => {
@@ -83,34 +99,33 @@ const References = ({ data, onChange }) => {
   };
 
   return (
-    <div>
-      <div className='text-xl font-medium pb-4 text-indigo-500'>References</div>
+    <div className="p-6 bg-gradient-to-br from-purple-50 to-indigo-100 rounded-xl shadow-lg">
+      <h2 className="text-2xl font-bold text-indigo-700 mb-6">References</h2>
       <form>
         {references.map((reference, index) => (
-          <div key={index} className="mb-4 p-4 border border-gray-300 rounded-md">
+          <div key={index} className="mb-4 p-4 bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-lg shadow-lg overflow-hidden">
             <div className='grid grid-cols-2 gap-4'>
               <div className='col-span-1'>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
+                <label className="block text-indigo-600 text-sm font-semibold mb-2">
                   Name
                 </label>
                 <input
                   type='text'
                   name='referenceName'
-                  className="appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white bg-opacity-50"
                   value={reference.referenceName}
                   onChange={(e) => handleInputChange(index, e)}
                   placeholder='Enter reference name'
                 />
               </div>
-
               <div className='col-span-1'>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
+                <label className="block text-indigo-600 text-sm font-semibold mb-2">
                   Position
                 </label>
                 <input
                   type='text'
                   name='referencePosition'
-                  className="appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white bg-opacity-50"
                   value={reference.referencePosition}
                   onChange={(e) => handleInputChange(index, e)}
                   placeholder='Enter reference position'
@@ -130,7 +145,6 @@ const References = ({ data, onChange }) => {
                   placeholder='Enter reference title'
                 />
               </div>
-
 
               <div className='col-span-1'>
                 <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -237,50 +251,41 @@ const References = ({ data, onChange }) => {
                     }}
                   />
                 )}
+
                 {reference.fileUrl && (
-                  <div className='mt-2 flex items-center'>
+                  <div className='flex items-center justify-between'>
+                    <span className='text-green-600'>File Uploaded</span>
                     <button
                       type='button'
-                      className=" px-4 py-2 bg-red-500 text-white rounded-md"
+                      className='text-red-600 hover:text-red-800 font-bold'
                       onClick={() => handleFileDelete(index)}
                     >
                       Delete File
                     </button>
-                    <button
-                      type='button'
-                      className="ml-2 px-4 py-2 bg-gray-500 text-white rounded-md"
-                      onClick={() => window.open(reference.fileUrl, '_blank', 'noopener,noreferrer')}
-                    >
-                      View File
-                    </button>
-
                   </div>
                 )}
               </div>
-            
             </div>
-
-            <div className="flex justify-end pt-4">
+            <div className="flex justify-between items-center mt-4">
               <button
                 type='button'
-                className="mt-2 px-4 py-2 bg-red-500 text-white rounded-md"
+                className='mt-2 text-white bg-red-500 hover:bg-red-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
                 onClick={() => handleRemoveReference(index)}
               >
                 Remove
               </button>
+              {index === references.length - 1 && (
+                <button
+                  type='button'
+                  className='mt-2 text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                  onClick={handleAddReference}
+                >
+                  Add
+                </button>
+              )}
             </div>
           </div>
         ))}
-        
-        <div className="flex justify-center">
-          <button
-            type='button'
-            className="mt-4 p-3 bg-blue-500 text-white rounded-md"
-            onClick={handleAddReference}
-          >
-            Add
-          </button>
-        </div>
       </form>
     </div>
   );

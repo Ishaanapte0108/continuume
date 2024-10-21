@@ -22,8 +22,8 @@ const Education = ({ data, onChange }) => {
   // }
 
   return (
-    <div>
-      <div className='text-xl font-medium pb-4 text-indigo-500'>Education</div>
+    <div className="p-6 bg-gradient-to-br from-purple-50 to-indigo-100 rounded-xl shadow-lg">
+      <h2 className="text-2xl font-bold text-indigo-700 mb-6">Education</h2>
       <form>
         <div className="grid grid-cols-2 gap-4">
         

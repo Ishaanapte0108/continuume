@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import debounce from 'lodash/debounce';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function University({ data, onChange }) {
+  const [step, setStep] = useState(1);
   const [university, setUniversity] = useState(data);
   const [options, setOptions] = useState([
     { label: "University of Southern California", value: "University of Southern California" },
@@ -39,16 +41,6 @@ export default function University({ data, onChange }) {
       ]);
     }
   };
-  
-  const handleMultiSelectChange = (selectedOptions) => {
-    const selectedValues = selectedOptions ? selectedOptions.map(option => option.value) : [];
-    const updatedUniversity = {
-      ...university,
-      otherInterestedUnis: selectedValues,
-    };
-    setUniversity(updatedUniversity);
-    onChange(updatedUniversity);
-  };
 
   const handleTypeChange = debounce((query) => {
     fetchUniversities(query);
@@ -66,60 +58,75 @@ export default function University({ data, onChange }) {
     };
     setUniversity(updatedUniversity);
     onChange(updatedUniversity);
+    setStep(step + 1);
   };
 
-  const getInitialSelectValue = (field) => {
-    return {
-      label: university[field] || '',
-      value: university[field] || '',
-    };
+  const filteredOptions = options.filter(option => 
+    !Object.values(university).includes(option.value)
+  );
+
+  const renderStep = () => {
+    if (step <= 5) {
+      return (
+        <motion.div
+          key={step}
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -50 }}
+          transition={{ duration: 0.3 }}
+        >
+          <h3 className="text-lg font-semibold mb-2">Select University {step}</h3>
+          <Select
+            options={filteredOptions}
+            onInputChange={handleInputChange}
+            onChange={(option) => handleSelectChange(`uniChoice${step}`, option)}
+            isLoading={loading}
+            className="react-select-container"
+            classNamePrefix="react-select"
+          />
+        </motion.div>
+      );
+    } else {
+      return (
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h3 className="text-xl font-semibold mb-4">University Priority List</h3>
+          <ol className="list-decimal list-inside space-y-2">
+            {[1, 2, 3, 4, 5].map(i => (
+              <li key={i} className="bg-white p-3 rounded-lg shadow-md">
+                {university[`uniChoice${i}`]}
+              </li>
+            ))}
+          </ol>
+        </motion.div>
+      );
+    }
   };
+
   return (
-    <div className=""> 
-      <div className='text-2xl font-semibold pb-6 text-indigo-600'>University Selection</div> 
-      <form className="space-y-6"> 
-        <div className="form-group"> 
-          <label htmlFor="uniChoice1" className="block text-gray-700 font-medium mb-2">University Choice 1</label> 
-          <Select 
-            name='uniChoice1' 
-            options={options} 
-            onInputChange={handleInputChange} 
-            onChange={(option) => handleSelectChange('uniChoice1', option)}
-            value={options.find(option => option.value === university.uniChoice1) || getInitialSelectValue('uniChoice1')}
-            isLoading={loading}
-            className="react-select-container"
-            classNamePrefix="react-select"
-          />
-        </div> 
-        
-        <div className="form-group"> 
-          <label htmlFor="uniChoice2" className="block text-gray-700 font-medium mb-2">University Choice 2</label> 
-          <Select 
-            name='uniChoice2' 
-            options={options} 
-            onInputChange={handleInputChange} 
-            onChange={(option) => handleSelectChange('uniChoice2', option)}
-            value={options.find(option => option.value === university.uniChoice2) || getInitialSelectValue('uniChoice2')}
-            isLoading={loading}
-            className="react-select-container"
-            classNamePrefix="react-select"
-          />
-        </div> 
-        
-        <div className="form-group"> 
-          <label htmlFor="uniChoice3" className="block text-gray-700 font-medium mb-2">University Choice 3</label> 
-          <Select 
-            name='uniChoice3' 
-            options={options} 
-            onInputChange={handleInputChange} 
-            onChange={(option) => handleSelectChange('uniChoice3', option)}
-            value={options.find(option => option.value === university.uniChoice3) || getInitialSelectValue('uniChoice3')}
-            isLoading={loading}
-            className="react-select-container"
-            classNamePrefix="react-select"
-          />
-        </div> 
-      </form> 
-    </div> 
+    <div className="p-6 bg-gradient-to-br from-purple-50 to-indigo-100 rounded-xl shadow-lg">
+      <h2 className="text-2xl font-bold text-indigo-700 mb-6">University Selection</h2>
+      <form>
+        <AnimatePresence mode="wait">
+          {renderStep()}
+        </AnimatePresence>
+        {step <= 5 && (
+          <div className="mt-4 flex justify-between">
+            {step > 1 && (
+              <button
+                type="button"
+                onClick={() => setStep(step - 1)}
+                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded transition duration-300"
+              >
+                Previous
+              </button>
+            )}
+          </div>
+        )}
+      </form>
+    </div>
   );
 }

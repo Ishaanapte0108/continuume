@@ -193,16 +193,25 @@ const TaskEdit = ({ isAdminView = false }) => {
                         <h2 className="font-semibold text-gray-700">
                           Tasks Overview
                         </h2>
-                        <span className="text-xs text-gray-500">
-                          View and manage creation and updation of tasks
-                        </span>
+                        {isAdminView ? (
+                          <span className="text-xs text-gray-500">
+                            View and manage creation and updation of tasks
+                          </span>
+                        ) : (
+                          <span className="text-xs text-gray-500">
+                            View your tasks and their status
+                          </span>
+                        )}
                       </div>
-                      <button
-                        onClick={handleAddTask}
-                        className="text-sm font-semibold bg-green-200 text-green-900 hover:bg-green-400 py-2 px-4 rounded"
-                      >
-                        Add New Task
-                      </button>
+
+                      {isAdminView && (
+                        <button
+                          onClick={handleAddTask}
+                          className="text-sm font-semibold bg-green-200 text-green-900 hover:bg-green-400 py-2 px-4 rounded"
+                        >
+                          Add New Task
+                        </button>
+                      )}
                     </div>
                     {showUploadForm && (
                       <TaskForm
@@ -250,38 +259,41 @@ const TaskEdit = ({ isAdminView = false }) => {
                                       </td>
 
                                       <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm max-w-48">
-                                        <p className="whitespace-pre-wrap">
+                                        <p className="whitespace-pre-line truncate">
                                           {task.dueDate}
                                         </p>
                                       </td>
 
-                                      <td
-                                        className="border-b border-gray-200 px-5 py-5 text-sm max-w-48"
+                                      <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                                        <button
+                                          onClick={() =>
+                                            handleStatusToggle(
+                                              task._id,
+                                              task.status
+                                            )
+                                          }
+                                          className={`whitespace-no-wrap py-1 px-2 rounded text-white ${
+                                            task.status === "pending"
+                                              ? "bg-red-500"
+                                              : "bg-green-500"
+                                          }`}
                                         >
-                                        <p 
-                                          onClick={() => handleStatusToggle(task._id, task.status)}
-                                          className={`text-white px-2 pb-0.5 rounded-lg cursor-pointer ${
-                                          task.status === 'pending' ? 'bg-red-500' : 'bg-green-500'
-                                        }`}>{task.status}</p>
+                                          {task.status}
+                                        </button>
                                       </td>
-
                                       {isAdminView ? (
                                         <>
                                           {/* <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                                            <button
-                                              className="rounded-full bg-blue-500 px-3 py-1 text-xs font-semibold text-white hover:bg-blue-900"
-                                              onClick={() =>
-                                                navigate(`/tasks/edit/${task._id}`)
-                                              }
-                                            >
-                                              Edit
-                                            </button>
-                                          </td> */}
-
+                                      <button className="whitespace-no-wrap py-1 px-2 rounded bg-blue-500 text-white">
+                                        Edit
+                                      </button>
+                                    </td> */}
                                           <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
                                             <button
-                                              className="rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white hover:bg-red-900"
-                                              onClick={() => deleteTask(task._id)}
+                                              onClick={() =>
+                                                deleteTask(task._id)
+                                              }
+                                              className="whitespace-no-wrap py-1 px-2 rounded bg-red-500 text-white"
                                             >
                                               Delete
                                             </button>
@@ -294,12 +306,14 @@ const TaskEdit = ({ isAdminView = false }) => {
                             </table>
                           </div>
                         </div>
-                    </div>
+                      </div>
                   </div>
                 </div>
               ) : (
-                <div className="flex items-center justify-center h-full">
-                  <p className="text-gray-500">No user selected.</p>
+                <div className="h-full w-full flex items-center justify-center">
+                  <span className="text-gray-500 text-xl">
+                    Please select a user
+                  </span>
                 </div>
               )}
             </div>
